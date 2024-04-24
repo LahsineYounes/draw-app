@@ -58,23 +58,6 @@ class DrawingView(context: Context,attrs:AttributeSet): View(context,attrs) {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-
-        mCanvasBitmap?.let {
-            canvas.drawBitmap(it, 0f,   0f, mCanvasPaint)
-        }
-
-
-        for (p in mPaths) {
-            mDrawPaint?.strokeWidth = p.brushThickness
-            mDrawPaint?.color = p.color
-            canvas.drawPath(p, mDrawPaint!!)
-        }
-
-        if (!mDrawPath!!.isEmpty) {
-            mDrawPaint!!.strokeWidth = mDrawPath!!.brushThickness
-            mDrawPaint!!.color = mDrawPath!!.color
-            canvas.drawPath(mDrawPath!!, mDrawPaint!!)
-        }
     }
 
 
@@ -85,24 +68,12 @@ class DrawingView(context: Context,attrs:AttributeSet): View(context,attrs) {
         val touchY = event.y // touch event of Y coordinate
 
         when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                mDrawPath!!.color = color
-                mDrawPath!!.brushThickness = mBrushSize
+            MotionEvent.ACTION_DOWN -> {}
 
-                mDrawPath!!.reset() // Clear any lines and curves from the path, making it empty.
-                mDrawPath!!.moveTo(touchX, touchY) // Set the beginning of the next contour to the point (x,y).
-            }
+            MotionEvent.ACTION_MOVE -> {}
 
-            MotionEvent.ACTION_MOVE -> {
-                mDrawPath!!.lineTo(touchX, touchY) // Add a line from the last point to the specified point (x,y).
-            }
-
-            MotionEvent.ACTION_UP -> {
-
-                mPaths.add(mDrawPath!!) //Add when to stroke is drawn to canvas and added in the path arraylist
-
-                mDrawPath = CustomPath(color, mBrushSize)
-            }
+            MotionEvent.ACTION_UP -> {}
+            
             else -> return false
         }
 
